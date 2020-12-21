@@ -200,14 +200,26 @@ func main() {
 	// formats the data into a map so the input array is looped over only once
 	NodeMap := formatData(Neighborhood)
 
-	// holds PathData for each location
-	LocationPathData := initPathDataMap(NodeMap, &startLocation)
+	if NodeMap[startLocation] != nil && NodeMap[targetLocation] != nil {
+		// holds PathData for each location
+		LocationPathData := initPathDataMap(NodeMap, &startLocation)
 
-	// loops over the NodeMap and determines the shortest route from the startLocation to all other locations
-	findPath(startLocation, LocationPathData, NodeMap)
+		// loops over the NodeMap and determines the shortest route from the startLocation to all other locations
+		findPath(startLocation, LocationPathData, NodeMap)
 
-	path := ReturnPath(LocationPathData, targetLocation)
+		path := ReturnPath(LocationPathData, targetLocation)
 
-	fmt.Println("distance:", LocationPathData[targetLocation].ShortestDistance)
-	fmt.Println("path:", path)
+		if LocationPathData[targetLocation].ShortestDistance != math.MaxInt32 {
+			fmt.Println("distance:", LocationPathData[targetLocation].ShortestDistance)
+			fmt.Println("path:", path)
+		} else {
+			fmt.Println("distance: unable to make it to target location from source location")
+			fmt.Println("path : []")
+		}
+
+	} else {
+		fmt.Println("distance: unable to make it to target location from source location")
+		fmt.Println("path : []")
+	}
+
 }
